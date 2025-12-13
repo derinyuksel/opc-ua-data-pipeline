@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # 1. MQTT Broker (Mosquitto) [cite: 27]
+  # Acts as the first "post office" for our data.
+  mqtt-broker:
+    image: eclipse-mosquitto
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+  # 2. Redis (Context Store) 
+  # Stores "static" info about machines (like location) to enrich the data.
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  # 3. Redpanda (Kafka Alternative) 
+  # We use Redpanda because it is 100% Kafka compatible but much lighter/easier to run than standard Kafka.
+  redpanda:
+    image: docker.redpanda.com/redpandadata/redpanda:latest
+    command:
+      - redpanda start
+      - --smp 1 
+      - --memory 1G 
+      - --reserve-memory 0M
+      - --overprovisioned
+      - --kafka-addr internal://0.0.0.0:9092,external://0.0.0.0:19092
+      - --advertise-kafka-addr internal://redpanda:9092,external://localhost:19092
+    ports:
+      - "19092:19092"
+      - "9644:9644"
+
+  # 4. TimescaleDB (PostgreSQL + TimeSeries extension) [cite: 32]
+  # Our final storage destination.
+  timescaledb:
+    image: timescale/timescaledb:latest-pg14
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=iot_data
+    ports:
+      - "5432:5432"
+
+  # 5. Grafana (Visualization) 
+  # The dashboard UI.
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - timescaledb
