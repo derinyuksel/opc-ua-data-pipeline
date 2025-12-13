@@ -43,18 +43,10 @@ Make sure you have the required Python libraries:
 4. **Start the Agents**
 Open 4 separate terminals and run the scripts in this specific order to see the data flow:
 
-**Terminal 1 ( The Machine):** 
-
-`python opcua-server/server.py`
-**Terminal 2 (The Bridge):** 
-
-`python agents/opcua-mqtt/agent.py`
-**Terminal 3 (The Enricher):**
-
-`python agents/hydration/hydration_agent.py`
-**Terminal 4 (The Database Sink):** 
-
-`python agents/kafka-db/db_agent.py`
+**Terminal 1 ( The Machine):** `python opcua-server/server.py`
+**Terminal 2 (The Bridge):** `python agents/opcua-mqtt/agent.py`
+**Terminal 3 (The Enricher):** `python agents/hydration/hydration_agent.py`
+**Terminal 4 (The Database Sink):**  `python agents/kafka-db/db_agent.py`
 
 ## 📊 Analytics & Visualization
 
