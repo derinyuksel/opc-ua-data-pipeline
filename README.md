@@ -34,6 +34,7 @@ Make sure you have the required Python libraries:
 `pip install -r requirements.txt`
 
 3. **Initialize Data**
+
 3.1. **Seed Redis:** Load static machine metadata such as 'Location' and 'Engineer' into the cache.
 
 `python seed_redis.py`
