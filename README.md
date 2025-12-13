@@ -23,7 +23,7 @@ We use a "Bucket Brigade" pattern where data is passed and transformed at each s
 
 1. **Start Infrastructure**
 We use Docker for all backend services.
-```bash
+
 'docker-compose up -d'
 
 Wait ~30 seconds for all containers (especially Redpanda and TimescaleDB) to fully initialize.
@@ -44,20 +44,20 @@ Make sure you have the required Python libraries:
 Open 4 separate terminals and run the scripts in this specific order to see the data flow:
 
 **Terminal 1 ( The Machine):** 
-```bash
+
 'python opcua-server/server.py'
 **Terminal 2 (The Bridge):** 
-```bash
+
 'python agents/opcua-mqtt/agent.py'
 **Terminal 3 (The Enricher):**
-```bash
+
 'python agents/hydration/hydration_agent.py'
 **Terminal 4 (The Database Sink):** 
-```bash
+
 'python agents/kafka-db/db_agent.py'
 
 ## 📊 Analytics & Visualization
-```bash
+
 **Grafana Dashboard**
 URL: http://localhost:3000
 
