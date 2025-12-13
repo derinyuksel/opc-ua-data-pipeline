@@ -24,19 +24,19 @@ We use a "Bucket Brigade" pattern where data is passed and transformed at each s
 1. **Start Infrastructure**
 We use Docker for all backend services.
 
-'docker-compose up -d'
+`docker-compose up -d`
 
 Wait ~30 seconds for all containers (especially Redpanda and TimescaleDB) to fully initialize.
 
 2. **Install Dependencies**
 Make sure you have the required Python libraries:
 
-'pip install -r requirements.txt'
+`pip install -r requirements.txt`
 
 3. **Initialize Data**
 3.1. **Seed Redis:** Load static machine metadata such as 'Location' and 'Engineer' into the cache.
 
-'python seed_redis.py'
+`python seed_redis.py`
 
 3.2. **Database:** The table sensor_data and the view machine_1min_avg are created automatically via the init script. If not, run the SQL commands in "database/init.sql"
 
@@ -45,23 +45,23 @@ Open 4 separate terminals and run the scripts in this specific order to see the 
 
 **Terminal 1 ( The Machine):** 
 
-'python opcua-server/server.py'
+`python opcua-server/server.py`
 **Terminal 2 (The Bridge):** 
 
-'python agents/opcua-mqtt/agent.py'
+`python agents/opcua-mqtt/agent.py`
 **Terminal 3 (The Enricher):**
 
-'python agents/hydration/hydration_agent.py'
+`python agents/hydration/hydration_agent.py`
 **Terminal 4 (The Database Sink):** 
 
-'python agents/kafka-db/db_agent.py'
+`python agents/kafka-db/db_agent.py`
 
 ## 📊 Analytics & Visualization
 
 **Grafana Dashboard**
 URL: http://localhost:3000
 
-**Login:** 'admin / admin'
+**Login:** `admin / admin`
 
 **Dashboard File:** Import dashboard.json (included in this repo) to see the pre-built layout.
 
