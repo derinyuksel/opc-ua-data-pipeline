@@ -1,17 +1,17 @@
 # requirements.txt
-# This file lists all external libraries our project needs to run.
+# all external libraries our project needs to run
 
-# For the OPC-UA Server and Client [cite: 21]
+# For the OPC-UA Server and Client 
 asyncua==1.0.6
 
-# For talking to the MQTT Broker [cite: 26]
+# For talking to the MQTT Broker 
 paho-mqtt==1.6.1
 
-# For connecting to Redis (Context hydration) [cite: 28]
+# For connecting to Redis (Context hydration) 
 redis==5.0.1
 
-# For sending/receiving messages with Kafka [cite: 29]
+# For sending/receiving messages with Kafka 
 kafka-python==2.0.2
 
-# For writing data to PostgreSQL/TimescaleDB [cite: 31]
+# For writing data to PostgreSQL/TimescaleDB 
 psycopg2-binary

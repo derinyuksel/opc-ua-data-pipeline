@@ -109,7 +109,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  bucket AS \"time\",\r\n  avg_temp\r\nFROM machine_1min_avg\r\nWHERE\r\n  $__timeFilter(bucket)\r\nORDER BY 1",
+          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature\r\nFROM sensor_data\r\nWHERE\r\n  $__timeFilter(time)\r\nORDER BY 1",
           "refId": "A",
           "sql": {
             "columns": [
@@ -225,7 +225,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT\r\n  time AS \"time\",\r\n  temperature\r\nFROM sensor_data\r\nWHERE\r\n  $__timeFilter(time)\r\nORDER BY 1",
+          "rawSql": "SELECT\r\n  bucket AS \"time\",\r\n  avg_temp\r\nFROM machine_1min_avg\r\nWHERE\r\n  $__timeFilter(bucket)\r\nORDER BY 1",
           "refId": "A",
           "sql": {
             "columns": [
