@@ -22,3 +22,9 @@ SELECT time_bucket('1 minute', time) AS bucket,
        AVG(pressure) as avg_press
 FROM sensor_data
 GROUP BY bucket, machine_id;
+
+-- Added a refresh policy to update the aggregate automatically
+SELECT add_continuous_aggregate_policy('machine_1min_avg',
+    start_offset => INTERVAL '1 day',
+    end_offset => INTERVAL '1 minute',
+    schedule_interval => INTERVAL '1 minute');
