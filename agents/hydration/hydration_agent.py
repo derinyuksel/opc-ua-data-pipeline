@@ -18,33 +18,33 @@ KAFKA_BROKER = "127.0.0.1:19092"
 KAFKA_TOPIC = "machine_enriched"
 
 # Setup connections
-# 1. Redis
+# Redis
 r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
-# 2. Kafka Producer
+# Kafka Producer
 producer = KafkaProducer(
     bootstrap_servers=[KAFKA_BROKER],
     value_serializer=lambda x: json.dumps(x).encode('utf-8')
 )
 
-# 3. MQTT Callback 
+# MQTT Callback 
 def on_message(client, userdata, msg):
     try:
-        # A. Decode the incoming MQTT message
+        # Decode the incoming MQTT message
         payload = msg.payload.decode("utf-8")
         data = json.loads(payload)
         
-        # B. Get the static context from Redis
+        # Get the static context from Redis
     
         context_str = r.get("machine_data")
         if context_str:
             context = json.loads(context_str)
             
-            # C. Merge the two dictionaries
+            # Merge the two dictionaries
            
             data.update(context)
             
-            # D. Send to Kafka
+            # Send to Kafka
             producer.send(KAFKA_TOPIC, value=data)
             print(f"Hydrated & Sent to Kafka: {data}")
         else:

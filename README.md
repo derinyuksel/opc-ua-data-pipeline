@@ -78,3 +78,34 @@ Visualizes the Continuous Aggregate (machine_1min_avg).
 
 Purpose: Analyzing historical performance without querying millions of raw rows.
 
+---
+
+## 📘 Technical Reference
+
+### Service Ports
+| Service | Port | Description |
+| :--- | :--- | :--- |
+| **Grafana** | `3000` | Web Dashboard Interface |
+| **Redpanda (Kafka)** | `19092` | External access for Agents |
+| **Mosquitto (MQTT)** | `1883` | MQTT Broker Messaging Port |
+| **TimescaleDB** | `5432` | PostgreSQL Database Access |
+| **Redis** | `6379` | In-memory Cache |
+| **OPC-UA Server** | `4840` | Simulation Server Endpoint |
+
+### Database Schema (`sensor_data`)
+The database uses a Hypertable optimized for time-series data.
+
+| Column | Type | Description |
+| :--- | :--- | :--- |
+| `time` | `TIMESTAMPTZ` | **(Primary Key)** Timestamp of the sensor reading. |
+| `machine_id` | `TEXT` | Unique identifier of the machine (e.g., "press_001"). |
+| `temperature` | `FLOAT` | Core temperature reading (°C). |
+| `pressure` | `FLOAT` | Internal pressure reading (bar). |
+| `status` | `BOOLEAN` | Machine operational status (True=Running, False=Idle). |
+| `location` | `TEXT` | Physical factory location (Enriched via Redis). |
+| `engineer` | `TEXT` | Responsible engineer (Enriched via Redis). |
+
+### Continuous Aggregate (`machine_1min_avg`)
+A materialized view that pre-calculates metrics to speed up long-term trending.
+* **Bucket Size:** 1 Minute
+* **Metrics:** Average Temperature, Max Temperature, Average Pressure.

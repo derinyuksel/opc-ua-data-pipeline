@@ -5,10 +5,8 @@ from asyncua import Client
 import paho.mqtt.client as mqtt
 
 
-
-
-# 1. Connects to the OPC-UA server as a CLIENT to read data.
-# 2. Connects to the MQTT Broker to PUBLISH that data.
+# Connects to the OPC-UA server as a CLIENT to read data.
+# Connects to the MQTT Broker to PUBLISH that data.
 # This decouples our source from the rest of the system.
 
 # Configuration
@@ -18,7 +16,7 @@ MQTT_PORT = 1883
 MQTT_TOPIC = "machine/data"
 
 async def main():
-    # 1. Setup MQTT Connection
+    # Setup MQTT Connection
     # paho-mqtt to talk to the broker running in Docker.
     mqtt_client = mqtt.Client()
     
@@ -29,7 +27,7 @@ async def main():
         print(f"Failed to connect to MQTT: {e}")
         return
 
-    # 2. Setup OPC-UA Client
+    # Setup OPC-UA Client
     async with Client(url=OPCUA_URL) as client:
         print(f"Connected to OPC-UA Server at {OPCUA_URL}")
         
@@ -46,12 +44,12 @@ async def main():
 
         while True:
             try:
-                # 3. Read Data from OPC-UA
+                # Read Data from OPC-UA
                 temp_val = await temp_node.read_value()
                 press_val = await press_node.read_value()
                 status_val = await status_node.read_value()
 
-                # 4. Format as JSON
+                # Format as JSON
                
                 payload = {
                     "temperature": temp_val,
@@ -60,7 +58,7 @@ async def main():
                 }
                 json_payload = json.dumps(payload)
 
-                # 5. Publish to MQTT
+                # Publish to MQTT
            
                 mqtt_client.publish(MQTT_TOPIC, json_payload)
                 

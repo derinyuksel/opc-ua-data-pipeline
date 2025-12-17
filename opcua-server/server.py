@@ -3,10 +3,6 @@ import logging
 import random
 from asyncua import Server, ua
 
-
-
-# It acts like a real industrial machine 
-# It starts an OPC-UA server on port 4840
 # 3 variables: Temperature, Pressure, and Status
 # We update them every 2 seconds so the rest of the pipeline has data to read
 
@@ -16,12 +12,11 @@ async def main():
     await server.init()
     
     # 0.0.0.0 to listen on all network interfaces
-    # for Docker containers to talk to each other later
     server.set_endpoint("opc.tcp://0.0.0.0:4840/freeopcua/server/")
     
     server.set_server_name("Simulation Server")
 
-    # 2. Setup the Namespace
+    # Setup the Namespace
     # In OPC-UA, a namespace organizes our tags so they don't clash with system tags.
     uri = "http://examples.freeopcua.github.io"
     idx = await server.register_namespace(uri)

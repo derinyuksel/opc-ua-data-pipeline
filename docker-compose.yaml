@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # 1. MQTT Broker (Mosquitto) [cite: 27]
+  # 1. MQTT Broker (Mosquitto)
   # Acts as the first "post office" for our data.
   mqtt-broker:
     image: eclipse-mosquitto
@@ -12,7 +12,7 @@ services:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
 
   # 2. Redis (Context Store) 
-  # Stores "static" info about machines (like location) to enrich the data.
+  # Stores "static" info about machines to enrich the data.
   redis:
     image: redis:alpine
     ports:
@@ -34,7 +34,7 @@ services:
       - "19092:19092"
       - "9644:9644"
 
-  # 4. TimescaleDB (PostgreSQL + TimeSeries extension) [cite: 32]
+  # 4. TimescaleDB (PostgreSQL + TimeSeries extension
   # Our final storage destination.
   timescaledb:
     image: timescale/timescaledb:latest-pg14
